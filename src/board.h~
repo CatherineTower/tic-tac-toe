@@ -1,0 +1,23 @@
+#ifndef BOARD_H
+#define BOARD_H
+
+typedef enum SpaceDesignation {
+  SPACE_FREE,
+  SPACE_PLAYER,
+  SPACE_CPU,
+} SpaceDesignation;
+
+typedef struct GameBoard {
+  int dimension;
+  SpaceDesignation *spaces;
+} GameBoard;
+
+int GameBoardInit(GameBoard *board, int dimension);
+void GameBoardDestroy(GameBoard *board);
+
+void setSpace(GameBoard *board, int x, int y, SpaceDesignation designation);
+SpaceDesignation getSpace(GameBoard const *board, int x, int y);
+
+SpaceDesignation testWin(GameBoard const *board);
+
+#endif  /* BOARD_H */

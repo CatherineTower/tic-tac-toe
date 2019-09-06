@@ -1,0 +1,63 @@
+
+board.c,256
+int GameBoardInit(5,94
+void GameBoardDestroy(20,437
+void setSpace(26,533
+SpaceDesignation getSpace(31,727
+static inline int boardCoordinate(36,910
+SpaceDesignation testWin(43,1133
+void setCursor(137,3362
+void moveCursor(147,3553
+int main(171,4027
+
+board.h,460
+#define BOARD_H2,16
+typedef enum SpaceDesignation 8,94
+  SPACE_FREE,9,126
+  SPACE_PLAYER,10,140
+  SPACE_CPU,11,156
+} SpaceDesignation;12,169
+typedef enum CursorDirection 14,190
+  CURSOR_UP,15,221
+  CURSOR_RIGHT,16,234
+  CURSOR_DOWN,17,250
+  CURSOR_LEFT,18,265
+} CursorDirection;19,280
+typedef struct GameBoard 21,300
+  int dimension;22,327
+  SpaceDesignation *spaces;spaces23,344
+  int cursorX;24,372
+  int cursorY;25,387
+} GameBoard;26,402
+
+interface.c,307
+static int const BOX_WIDTH 3,24
+static int const BOX_HEIGHT 4,56
+void initializeInterface(14,381
+void cleanupInterface(22,483
+void drawGrid(26,528
+static void drawColumn(41,997
+static void drawRow(51,1257
+void drawPiece(61,1518
+void drawAllPieces(69,1723
+void drawBoard(94,2367
+int main(100,2509
+
+interface.h,164
+#define INTERFACE_H2,20
+enum DrawingChars 9,103
+  VLINE 10,123
+  HLINE 11,138
+  CROSSLINE 12,153
+  PLAYERPIECE 13,172
+  CPUPIECE 14,193
+  BLANKSPACE 15,211
+
+main.c,226
+static void cpuTurn(14,331
+static CursorDirection getPlayerInput(29,686
+static inline int isValidKey(38,822
+static inline int canPlacePlayerPiece(45,1019
+static void playerTurn(49,1158
+int main(75,1737
+int main(94,2010

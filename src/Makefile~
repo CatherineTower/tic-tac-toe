@@ -1,0 +1,3 @@
+test: board.c Makefile
+	clear
+	gcc -Wall -Wextra -g -DUNITTEST -o test board.c -lncurses

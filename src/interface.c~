@@ -1,0 +1,100 @@
+#include <ncurses.h>
+#include <stdio.h>
+#include "interface.h"
+
+static int const BOX_WIDTH = 1;
+static int const BOX_HEIGHT = 1;
+
+/* static char const VLINE = '|'; */
+/* static char const HLINE = '-'; */
+/* static char const CROSSLINE = '+'; */
+
+enum DrawingChars {
+  VLINE = '|',
+  HLINE = '-',
+  CROSSLINE = '+',
+  PLAYERPIECE = 'X',
+  CPUPIECE = 'O',
+};
+
+static void drawColumn(int xCoordinate, int length, char joinChar, char horizontalChar);
+static void drawRow(int yCoordinate, int length, char joinChar, char verticalChar);
+
+
+void initializeInterface(void) {
+  initscr();
+  curs_set(0);
+  noecho();
+  start_color();
+}
+
+void cleanupInterface(void) {
+  endwin();
+}
+
+void drawGrid(int xBoxes, int yBoxes) {
+  /* All boxes except for one are two characters: the blank one in the
+     middle and the line either to the left or above; the last box is
+     three characters. */
+  int width = xBoxes * 2 + 1;
+  int height = yBoxes * 2 + 1;
+
+  for(int x = 0; x < width; x += BOX_WIDTH + 1) {
+    drawColumn(x, height, CROSSLINE, VLINE);
+  }
+  for(int y = 0; y < height; y += BOX_HEIGHT + 1) {
+    drawRow(y, height, CROSSLINE, HLINE);
+  }
+}
+
+static void drawColumn(int xCoordinate, int length, char joinChar, char verticalChar) {
+  for(int i = 1; i < length; i += 2) {
+    mvaddch(i, xCoordinate, verticalChar);
+  }
+
+  for(int i = 0; i < length; i += 2) {
+    mvaddch(i, xCoordinate, joinChar);
+  }
+}
+
+static void drawRow(int yCoordinate, int length, char joinChar, char horizontalChar) {
+  for(int i = 1; i < length; i += 2) {
+    mvaddch(yCoordinate, i, horizontalChar);
+  }
+
+  for(int i = 0; i < length; i += 2) {
+    mvaddch(yCoordinate, i, joinChar);
+  }
+}
+
+void drawPiece(int x, int y, char ch) {
+  /* Convert from box index to coordinate */
+  int xCoordinate = x * 2 + 1;
+  int yCoordinate = y * 2 + 1;
+
+  mvaddch(yCoordinate, xCoordinate, ch);
+}
+
+
+#ifdef UNITTEST
+int main(void)
+{
+  initializeInterface();
+  clear();
+  refresh();
+  drawGrid(10, 10);
+  refresh();
+  getch();
+
+  for(int i = 0; i < 10; i++) {
+    drawPiece(i, i, PLAYERPIECE);
+  }
+  for(int i = 0; i < 10; i++) {
+    drawPiece(9 - i, i, CPUPIECE);
+  }
+  refresh();
+  getch();
+
+  cleanupInterface();
+}
+#endif  /* UNITTEST */
