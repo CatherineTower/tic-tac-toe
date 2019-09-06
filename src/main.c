@@ -16,6 +16,7 @@ static inline int isValidKey(int ch);
 static inline int canPlacePlayerPiece(GameBoard const *board);
 static void playerTurn(GameBoard *board);
 static void printMessage(char const *message, int yCoordinate);
+static int boardIsFull(GameBoard const *board);
 
 /* Name of the program, as passed in by the OS */
 static char const *PROGNAME;
@@ -118,6 +119,15 @@ static void printMessage(char const *message, int yCoordinate) {
   mvprintw(yCoordinate, 0, message);
 }
 
+static int boardIsFull(GameBoard const *board) {
+  for(int i = 0; i < board->dimension * board->dimension; i++) {
+    if(board->spaces[i] == SPACE_FREE) {
+      return 0;
+    }
+  }
+  return 1;
+}
+
 #ifdef UNITTEST_MAIN
 
 int main(void) {
@@ -181,9 +191,17 @@ int main(int argc, char **argv) {
       printMessage("Player wins!\n", messageLocation);
       break;
     }
+    if(boardIsFull(&board)) {
+      printMessage("Draw!\n", messageLocation);
+      break;
+    }
     cpuTurn(&board);
     if(testWin(&board) == SPACE_CPU) {
       printMessage("CPU wins!\n", messageLocation);
+      break;
+    }
+    if(boardIsFull(&board)) {
+      printMessage("Draw!\n", messageLocation);
       break;
     }
     refresh();
