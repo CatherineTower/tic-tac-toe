@@ -55,3 +55,6 @@ tic-tac-toe
 
 # Emacs TAGS file
 TAGS
+
+# Emacs backup files
+*~
