@@ -50,3 +50,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+tic-tac-toe
+
+# Emacs TAGS file
+TAGS
